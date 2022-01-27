@@ -23,7 +23,7 @@ class Router
     }
 
 
-    public function get(string $path, \Closure $callback)
+    public function get(string $path, \Closure $callback): void
     {
         $this->routes['get'][$path] = $callback;
     }
