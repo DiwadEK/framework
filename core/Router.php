@@ -23,7 +23,7 @@ class Router
     }
 
 
-    public function get(string $path, \Closure $callback): void
+    public function get(string $path, mixed $callback): void
     {
         $this->routes['get'][$path] = $callback;
     }
@@ -35,10 +35,18 @@ class Router
 
         $callback = $this->routes[$method][$path] ?? false;
         if ($callback === false) {
-            echo 'NOT FOUND';
-            exit;
+            return 'NOT FOUND';
         }
 
-        echo call_user_func($callback);
+        if (is_string($callback)) {
+            return $this->renderView($callback);
+        }
+
+        return call_user_func($callback);
+    }
+
+    private function renderView(string $view): void
+    {
+        include_once __DIR__ . "/../views/$view.php";
     }
 }
