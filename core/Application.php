@@ -9,6 +9,7 @@ namespace app\core;
  */
 class Application
 {
+    public static string $ROOT_DIR;
     public Router $router;
     public Request $request;
 
@@ -16,8 +17,9 @@ class Application
      * Sets parameters of an object
      *
      */
-    public function __construct()
+    public function __construct(string $rootPath)
     {
+        self::$ROOT_DIR = $rootPath;
         $this->request = new Request();
         $this->router = new Router($this->request);
     }

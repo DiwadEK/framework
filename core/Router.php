@@ -45,8 +45,24 @@ class Router
         return call_user_func($callback);
     }
 
-    private function renderView(string $view): void
+    private function renderView(string $view): string
     {
-        include_once __DIR__ . "/../views/$view.php";
+        $layoutContent = $this->layoutContent();
+        $viewContent = $this->renderOnlyView($view);
+        return str_replace('{{content}}', $viewContent, $layoutContent);
+    }
+
+    private function layoutContent(): string
+    {
+        ob_start();
+        include_once Application::$ROOT_DIR . '/views/layouts/main.php';
+        return ob_get_clean();
+    }
+
+    private function renderOnlyView(string $view): string
+    {
+        ob_start();
+        include_once Application::$ROOT_DIR . "/views/$view.php";
+        return ob_get_clean();
     }
 }
