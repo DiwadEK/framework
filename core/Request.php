@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace app\core;
 
+/**
+ * @package app\core
+ */
 class Request
 {
     public function getPath(): string

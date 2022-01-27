@@ -25,10 +25,24 @@ class Router
         $this->response = $response;
     }
 
-
-    public function get(string $path, mixed $callback): void
+    /**
+     * @param string $path
+     * @param mixed $callback
+     * @return void
+     */
+    public function get(string $path, string|callable $callback): void
     {
         $this->routes['get'][$path] = $callback;
+    }
+
+    /**
+     * @param string $path
+     * @param mixed $callback
+     * @return void
+     */
+    public function post(string $path, mixed $callback): void
+    {
+        $this->routes['post'][$path] = $callback;
     }
 
     public function resolve()
@@ -39,7 +53,7 @@ class Router
         $callback = $this->routes[$method][$path] ?? false;
         if ($callback === false) {
             $this->response->setStatusCode(404);
-            return 'NOT FOUND';
+            return $this->renderView('_404');
         }
 
         if (is_string($callback)) {
@@ -63,6 +77,10 @@ class Router
         return ob_get_clean();
     }
 
+    /**
+     * @param string $view
+     * @return string
+     */
     private function renderOnlyView(string $view): string
     {
         ob_start();

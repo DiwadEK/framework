@@ -18,6 +18,7 @@ class Application
     /**
      * Sets parameters of an object
      *
+     * @param string $rootPath
      */
     public function __construct(string $rootPath)
     {
